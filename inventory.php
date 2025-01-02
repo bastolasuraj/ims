@@ -1,10 +1,37 @@
 <?php
-require __DIR__ . '/includes/db.php'; // Include the MongoDB connection
+$collectionName = 'imsCollection'; // Set the collection name
+include 'includes/db.php'; // Include the MongoDB connection
 include 'includes/head.php';
 
 // Fetch data from MongoDB
-$collection = $client->imsDB->imsCollection; // Replace 'myDatabase' with your actual database name
+$collection = $client->imsDB->$collectionName; // Replace 'imsDB' and 'imsCollection' with your actual DB/Collection names
 $items = $collection->find([], ['limit' => 5, 'sort' => ['date_added' => -1]]); // Fetch 5 most recent items
+
+// Handle form submission (Add or Update Product)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $itemName = $_POST['item-name'];
+    $itemCost = $_POST['item-cost'];
+    $itemQuantity = $_POST['item-quantity'];
+
+    // Check if the item already exists in the database
+    $existingItem = $collection->findOne(['name' => $itemName]);
+
+    if ($existingItem) {
+        // If the item exists, update the quantity and cost (if necessary)
+        $collection->updateOne(
+            ['name' => $itemName],
+            ['$inc' => ['quantity' => $itemQuantity]] // Increase quantity
+        );
+    } else {
+        // If the item doesn't exist, insert a new product
+        $collection->insertOne([
+            'name' => $itemName,
+            'cost' => $itemCost,
+            'quantity' => $itemQuantity,
+            'date_added' => new MongoDB\BSON\UTCDateTime()
+        ]);
+    }
+}
 ?>
 
 <!-- Main Content -->
@@ -14,7 +41,7 @@ $items = $collection->find([], ['limit' => 5, 'sort' => ['date_added' => -1]]); 
             <form action="#" method="POST" class="row g-3">
                 <h2> Update the Purchase Inventory</h2>
                 <div class="col-auto">
-                    <input class="form-control" list="db-items" id="item-name" name="item-name" placeholder="Type to search Item...">
+                    <input class="form-control" list="db-items" id="item-name" name="item-name" placeholder="Type to search Item..." oninput="fetchItemCost()">
                     <datalist id="db-items">
                         <!-- List of items will be populated dynamically from MongoDB -->
                         <?php
@@ -74,3 +101,25 @@ $items = $collection->find([], ['limit' => 5, 'sort' => ['date_added' => -1]]); 
 <?php
 include 'includes/foot.php';
 ?>
+
+<script>
+    // JavaScript to fetch item cost dynamically from the server
+    function fetchItemCost() {
+        var itemName = document.getElementById("item-name").value;
+
+        // Only make request if the item name is not empty
+        if (itemName) {
+            // Use fetch to make an AJAX request
+            fetch('fetchItemCost.php?item_name=' + encodeURIComponent(itemName))
+                .then(response => response.json())
+                .then(data => {
+                    if (data.cost) {
+                        document.getElementById("item-cost").value = data.cost;
+                    } else {
+                        document.getElementById("item-cost").value = '';
+                    }
+                })
+                .catch(error => console.error('Error fetching item cost:', error));
+        }
+    }
+</script>
