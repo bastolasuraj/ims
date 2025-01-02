@@ -1,6 +1,30 @@
 <?php
-include 'includes/db.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get form data
+    $itemName = $_POST['item-name'] ?? '';
+    $itemCost = $_POST['item-cost'] ?? '';
+    $itemQuantity = $_POST['item-quantity'] ?? '';
+
+    // Validate data
+    if ($itemName && $itemCost && $itemQuantity) {
+        // Prepare the data to insert
+        $inventoryItem = [
+            'name' => $itemName,
+            'cost' => (int)$itemCost,
+            'quantity' => (int)$itemQuantity,
+            'date_added' => new MongoDB\BSON\UTCDateTime() // Automatically set the date added
+        ];
+
+        // Insert the item into MongoDB
+        $collection->insertOne($inventoryItem);
+
+        // Redirect to refresh the page (optional)
+        header('Location: inventory.php');
+        exit;
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang = "en">
 <head>
