@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form action="#" method="POST" class="row g-3">
                 <h2> Update the Purchase Inventory</h2>
                 <div class="col-auto">
-                    <input class="form-control" list="db-items" id="item-name" name="item-name" placeholder="Type to search Item..." oninput="fetchItemCost()">
+                    <input class="form-control" list="db-items" id="item-name" name="item-name" placeholder="Type to search Item..." oninput="fetchItemDetail()">
                     <datalist id="db-items">
                         <!-- List of items will be populated dynamically from MongoDB -->
                         <?php
@@ -62,6 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="col-auto">
                     <button id="item-add" type="submit" class="btn btn-primary mb-3">Add Item</button>
                 </div>
+                <div>
+                    <p id="item-detail">
+                        Item detail will be displayed here once you enter product name.
+                    </p>
+                </div>
             </form>
         </section>
         <section id="inventory-list">
@@ -74,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <th>Item</th>
                         <th>Quantity</th>
                         <th>Cost</th>
-                        <th>Action</th>
+                        <th>Date</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,7 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         echo "<td>{$item['name']}</td>";
                         echo "<td>{$item['quantity']}</td>";
                         echo "<td>{$item['cost']}</td>";
-                        echo "<td><i class='fa-solid fa-pen-to-square'></i><i class='fa-solid fa-trash'></i></td>";
+                        echo "<td>".$item['date_added']->toDateTime()->format('Y-m-d')."</td>";
+//                        echo "<td><i class='fa-solid fa-pen-to-square'></i><i class='fa-solid fa-trash'></i></td>";
                         echo "</tr>";
                         $sn++;
                     }
@@ -101,25 +107,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php
 include 'includes/foot.php';
 ?>
-
-<script>
-    // JavaScript to fetch item cost dynamically from the server
-    function fetchItemCost() {
-        var itemName = document.getElementById("item-name").value;
-
-        // Only make request if the item name is not empty
-        if (itemName) {
-            // Use fetch to make an AJAX request
-            fetch('fetchItemCost.php?item_name=' + encodeURIComponent(itemName))
-                .then(response => response.json())
-                .then(data => {
-                    if (data.cost) {
-                        document.getElementById("item-cost").value = data.cost;
-                    } else {
-                        document.getElementById("item-cost").value = '';
-                    }
-                })
-                .catch(error => console.error('Error fetching item cost:', error));
-        }
-    }
-</script>

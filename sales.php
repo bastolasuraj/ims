@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2> Update the Sales Inventory</h2>
                 <div class="col-auto">
                     <input class="form-control" list="db-items" id="item-name" name="item-name"
-                           placeholder="Type to search Item..." oninput="fetchItemCost()">
+                           placeholder="Type to search Item..." oninput="fetchItemDetail()">
                     <datalist id="db-items">
                         <!-- List of items will be populated dynamically from MongoDB -->
                         <?php
@@ -104,13 +104,13 @@ include 'includes/foot.php';
 ?>
 <script>
     // JavaScript to fetch item cost dynamically from the server
-    function fetchItemCost() {
+    function fetchItemDetail() {
         var itemName = document.getElementById("item-name").value;
 
         // Only make request if the item name is not empty
         if (itemName) {
             // Use fetch to make an AJAX request
-            fetch('fetchItemCost.php?item_name=' + encodeURIComponent(itemName))
+            // fetch('fetchItemDetail.php?item_name=' + encodeURIComponent(itemName))
                 .then(response => response.json())
                 .then(data => {
                     if (data.cost) {

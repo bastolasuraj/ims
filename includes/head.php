@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	        crossorigin = "anonymous"></script>
 	<link rel = "stylesheet" href = "assets/css/styles.css">
 	<script src = "https://kit.fontawesome.com/ace3865455.js" crossorigin = "anonymous"></script>
+	<script src = "assets/js/script.js"></script>
 </head>
 <body>
 <!-- Header Section -->
