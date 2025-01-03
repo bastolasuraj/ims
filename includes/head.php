@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<div class = "auth-buttons">
         <?php
         if (isset($_SESSION['user_id'])) {
-            echo '<a href="logout.php">Logout</a>';
+            echo '<a class="btn btn-danger" href="logout.php">Logout</a>';
         }
         ?>
 		<!--        <button>Login</button>-->
