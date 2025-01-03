@@ -1,4 +1,13 @@
 includes/db.php
 .env
 vendor
+.idea
+.git
+temp
+node_modules
+npm-debug.log
+composer.lock
+composer.phar
+composer.json
+error_log
 #this is a comment
