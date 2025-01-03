@@ -1,0 +1,30 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Ensure HTTPS (optional, uncomment to force HTTPS)
+# RewriteCond %{HTTPS} !=on
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect 404 Errors to Custom Page
+ErrorDocument 404 /ims/404.php
+
+# Deny Access to Hidden Files (e.g., .htaccess, .env)
+<FilesMatch "^\.">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Protect Includes Folder (if you have an includes directory)
+<Directory "/includes">
+    Order Deny,Allow
+    Deny from all
+</Directory>
+
+# Ensure Directory Indexing is Disabled
+Options -Indexes
+
+# Rewrite Rules for Pretty URLs (optional)
+# Uncomment the following lines if you plan to use pretty URLs
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^ index.php [L]
