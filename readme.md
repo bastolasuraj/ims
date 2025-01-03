@@ -1,32 +1,60 @@
 # Inventory Management System (IMS)
 
-A robust and user-friendly inventory management system built to help businesses track, manage, and optimize their inventory operations efficiently.
+A PHP-based Inventory Management System that uses MongoDB for data storage. This system helps track product inventory, manage purchases, and monitor stock levels with a user-friendly web interface.
 
-## Features
+## System Overview
 
-- **Dashboard Overview**: Real-time insights into inventory status, alerts, and key metrics
-- **Product Management**: Add, edit, and delete products with detailed information
-- **Stock Tracking**: Monitor stock levels, set reorder points, and receive low stock alerts
-- **Order Management**: Process purchase orders and sales orders seamlessly
-- **Supplier Management**: Maintain supplier information and purchase history
-- **Reporting & Analytics**: Generate detailed reports on inventory movement and performance
-- **User Management**: Role-based access control with different permission levels
-- **Audit Trail**: Track all system changes and user activities
+This IMS is built with:
+- PHP (Backend)
+- MongoDB (Database)
+- Composer (PHP Package Manager)
+- Bootstrap (Frontend Styling)
+- JavaScript (Client-side functionality)
 
-## Tech Stack
+## Core Features
 
-- Frontend: [Your frontend framework]
-- Backend: [Your backend framework]
-- Database: [Your database]
-- Authentication: [Your auth system]
+- **Inventory Management**
+    - Add new items to inventory
+    - Update existing item quantities
+    - Track item costs
+    - Real-time item detail fetching
+
+- **Purchase Tracking**
+    - Record new purchases
+    - View recent purchase history
+    - Automatic inventory updates on purchase
+
+- **Data Display**
+    - Display 5 most recent inventory updates
+    - Sortable inventory list
+    - Date-based tracking
+
+## Project Structure
+
+```
+├── includes/
+│   ├── db.php          # MongoDB connection configuration
+│   ├── head.php        # Header HTML and common includes
+│   └── foot.php        # Footer HTML and script includes
+├── assets/
+│   ├── css/
+│   │   └── styles.css  # Custom styling
+│   └── js/
+│       └── script.js   # Client-side functionality
+├── fetchItemDetail.php  # AJAX endpoint for item details
+├── inventory.php       # Main inventory management page
+├── sales.php          # Sales management interface
+├── index.php          # Landing page
+└── auth.php           # Authentication handler
+```
 
 ## Prerequisites
 
-Before you begin, ensure you have met the following requirements:
-- Node.js (version X.X.X)
-- npm/yarn
-- [Database] installed and running
-- [Any other dependencies]
+- PHP 7.4 or higher
+- MongoDB Server
+- Composer
+- Web Server (Apache/Nginx)
+- MongoDB PHP Driver
 
 ## Installation
 
@@ -36,76 +64,77 @@ git clone https://github.com/bastolasuraj/ims.git
 cd ims
 ```
 
-2. Install dependencies:
+2. Install dependencies using Composer:
 ```bash
-npm install
-# or
-yarn install
+composer install
 ```
 
-3. Configure environment variables:
-```bash
-cp .env.example .env
-```
-Edit `.env` with your configuration details.
+3. Configure MongoDB connection:
+    - Open `includes/db.php`
+    - Update MongoDB connection URI with your credentials
 
-4. Run database migrations:
-```bash
-npm run migrate
-# or
-yarn migrate
-```
-
-5. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
+4. Configure your web server:
+    - Point document root to the project directory
+    - Ensure PHP has MongoDB extension enabled
 
 ## Usage
 
-1. Access the application through `http://localhost:3000`
-2. Log in with your credentials
-3. Navigate through the dashboard to access different features
-4. Use the help documentation for detailed feature guides
+1. Access the system through your web browser
+2. Use the inventory management form to:
+    - Add new items
+    - Update existing item quantities
+    - View current stock levels
+3. Monitor recent purchases in the table below the form
+4. Use the autocomplete feature to quickly find existing items
 
-## API Documentation
+## Features in Detail
 
-API endpoints are available at `/api/v1/`. Detailed API documentation can be found in the `/docs` directory.
+### Inventory Management
+- **Auto-completion**: Dynamic item search with existing inventory suggestions
+- **Real-time Updates**: Instant fetching of item details when selecting existing items
+- **Quantity Management**: Automatic quantity updates for existing items
+- **Cost Tracking**: Track cost per item
+- **Date Tracking**: Automatic timestamp for all inventory changes
+
+### Data Display
+- Tabular view of recent inventory changes
+- Sortable columns
+- Date formatted display
+- Quantity and cost tracking
+
+## Security
+
+- MongoDB connection is handled securely through environment configuration
+- Form submissions include basic validation
+- [Note: Additional security measures may need to be implemented based on requirements]
 
 ## Contributing
 
-We welcome contributions! Please follow these steps:
-
 1. Fork the repository
-2. Create a new branch (`git checkout -b feature/improvement`)
-3. Make your changes
-4. Commit your changes (`git commit -am 'Add new feature'`)
-5. Push to the branch (`git push origin feature/improvement`)
-6. Create a Pull Request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Author
+
+- **Suraj Bastola** - Initial work and maintenance
 
 ## License
 
-This project is licensed under the [License Name] - see the [LICENSE.md](LICENSE.md) file for details.
-
-## Support
-
-For support and queries, please:
-- Create an issue in the GitHub repository
-- Contact the maintainers at [contact information]
-- Check the [FAQ](docs/FAQ.md) section
-
-## Authors
-
-- Suraj Bastola - Initial work - [@bastolasuraj](https://github.com/bastolasuraj)
-- [List other contributors]
-
-## Acknowledgments
-
-- Thank you to all contributors who have helped with this project
-- Special thanks to [Any special mentions]
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
-**Note**: This README is a template and should be customized based on your specific implementation and requirements.
+## Future Enhancements
+
+- User authentication and authorization
+- Advanced reporting features
+- Sales tracking integration
+- Export functionality for reports
+- Stock alerts for low inventory
+
+## Support
+
+For support and queries, please create an issue in the GitHub repository or contact the maintainer directly.
+
