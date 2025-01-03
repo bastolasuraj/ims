@@ -1,6 +1,6 @@
 <?php
 // Set the API endpoint for programming jokes
-$apiUrl = 'https://v2.jokeapi.dev/joke/Programming?type=single';
+$apiUrl = 'https://v2.jokeapi.dev/joke/Dark?blacklistFlags=nsfw,sexist&type=single';
 
 // Initialize cURL session
 $ch = curl_init();
@@ -102,7 +102,7 @@ $joke = json_decode($response, true);
 <div class="container">
     <div class="error-box">
         <h1>Oops! 404</h1>
-        <p>Sorry, the page you are looking for does not exist.</p>
+        <p>Sorry, the page you are looking for does not exist. Now enjoy this...</p>
         <div class="joke">
             <?php
             // Display the joke
