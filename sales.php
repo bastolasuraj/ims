@@ -4,29 +4,29 @@ include 'includes/db.php'; // Include the MongoDB connection
 include 'includes/head.php';
 // Fetch data from MongoDB
 $collection = $client->imsDB->$collectionName; // Replace 'imsDB' and 'imsCollection' with your actual DB/Collection names
-$items = $collection->find([], ['limit' => 5, 'sort' => ['date_added' => -1]]); // Fetch 5 most recent items
+$products = $collection->find([], ['limit' => 5, 'sort' => ['date_added' => -1]]); // Fetch 5 most recent products
 
 // Handle form submission (Add or Update Product)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $itemName = $_POST['item-name'];
-    $itemCost = $_POST['item-cost'];
-    $itemQuantity = $_POST['item-quantity'];
+    $productName = $_POST['product-name'];
+    $productCost = $_POST['product-cost'];
+    $productQuantity = $_POST['product-quantity'];
 
-// Check if the item already exists in the database
-    $existingItem = $collection->findOne(['name' => $itemName]);
+// Check if the product already exists in the database
+    $existingProduct = $collection->findOne(['name' => $productName]);
 
-    if ($existingItem) {
-// If the item exists, update the quantity and cost (if necessary)
+    if ($existingProduct) {
+// If the product exists, update the quantity and cost (if necessary)
         $collection->updateOne(
-            ['name' => $itemName],
-            ['$inc' => ['quantity' => $itemQuantity]] // Increase quantity
+            ['name' => $productName],
+            ['$inc' => ['quantity' => $productQuantity]] // Increase quantity
         );
     } else {
-// If the item doesn't exist, insert a new product
+// If the product doesn't exist, insert a new product
         $collection->insertOne([
-            'name' => $itemName,
-            'cost' => $itemCost,
-            'quantity' => $itemQuantity,
+            'name' => $productName,
+            'cost' => $productCost,
+            'quantity' => $productQuantity,
             'date_added' => new MongoDB\BSON\UTCDateTime()
         ]);
     }
@@ -40,27 +40,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form action="#" class="row g-3">
                 <h2> Update the Sales Inventory</h2>
                 <div class="col-auto">
-                    <input class="form-control" list="db-items" id="item-name" name="item-name"
-                           placeholder="Type to search Item..." oninput="fetchItemDetail()">
-                    <datalist id="db-items">
-                        <!-- List of items will be populated dynamically from MongoDB -->
+                    <input class="form-control" list="db-products" id="product-name" name="product-name"
+                           placeholder="Type to search Product..." oninput="fetchProductDetail()">
+                    <datalist id="db-products">
+                        <!-- List of products will be populated dynamically from MongoDB -->
                         <?php
-                        // Dynamically populate item names from MongoDB
-                        $itemsInDb = $collection->distinct("name");
-                        foreach ($itemsInDb as $itemName) {
-                            echo "<option value=\"$itemName\">";
+                        // Dynamically populate product names from MongoDB
+                        $productsInDb = $collection->distinct("name");
+                        foreach ($productsInDb as $productName) {
+                            echo "<option value=\"$productName\">";
                         }
                         ?>
                     </datalist>
                 </div>
                 <div class="col-auto">
-                    <input type="number" class="form-control" id="item-cost" placeholder="Item Cost">
+                    <input type="number" class="form-control" id="product-cost" placeholder="Product Cost">
                 </div>
                 <div class="col-auto">
-                    <input type="number" class="form-control" id="item-quantity" placeholder="Quantity of the Item">
+                    <input type="number" class="form-control" id="product-quantity" placeholder="Quantity of the Product">
                 </div>
                 <div class="col-auto">
-                    <button id="item-add" type="submit" class="btn btn-primary mb-3">Add Item</button>
+                    <button id="product-add" type="submit" class="btn btn-primary mb-3">Add Product</button>
 
                 </div>
             </form>
@@ -103,9 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 include 'includes/foot.php';
 ?>
 <script>
-    // JavaScript to fetch item cost dynamically from the server
+    // JavaScript to fetch product cost dynamically from the server
     function fetchItemDetail() {
-        var itemName = document.getElementById("item-name").value;
+        var productName = document.getElementById("product-name").value;
 
         // Only make request if the item name is not empty
         if (itemName) {

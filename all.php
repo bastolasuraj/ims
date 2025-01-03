@@ -3,7 +3,7 @@
 $patterns = [
     '*/*.php',
     '*.php',
-//    '*/*/*'
+    '*/*/*'
 ];
 
 // Loop through each pattern to find and process files

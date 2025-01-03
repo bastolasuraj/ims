@@ -1,22 +1,29 @@
 <?php
+session_start();
+
+// Redirect if not logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: auth.php');
+    exit;
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
-    $itemName = $_POST['item-name'] ?? '';
-    $itemCost = $_POST['item-cost'] ?? '';
-    $itemQuantity = $_POST['item-quantity'] ?? '';
+    $productName = $_POST['product-name'] ?? '';
+    $productCost = $_POST['product-cost'] ?? '';
+    $productQuantity = $_POST['product-quantity'] ?? '';
 
     // Validate data
-    if ($itemName && $itemCost && $itemQuantity) {
+    if ($productName && $productCost && $productQuantity) {
         // Prepare the data to insert
-        $inventoryItem = [
-            'name' => $itemName,
-            'cost' => (int)$itemCost,
-            'quantity' => (int)$itemQuantity,
+        $inventoryProduct = [
+            'name' => $productName,
+            'cost' => (int)$productCost,
+            'quantity' => (int)$productQuantity,
             'date_added' => new MongoDB\BSON\UTCDateTime() // Automatically set the date added
         ];
 
-        // Insert the item into MongoDB
-        $collection->insertOne($inventoryItem);
+        // Insert the product into MongoDB
+        $collection->insertOne($inventoryProduct);
 
         // Redirect to refresh the page (optional)
         header('Location: inventory.php');
@@ -66,6 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		</ul>
 	</nav>
 	<div class = "auth-buttons">
+        <?php
+        if (isset($_SESSION['user_id'])) {
+            echo '<a href="logout.php">Logout</a>';
+        }
+        ?>
 		<!--        <button>Login</button>-->
 		<!--        <button>Register</button>-->
 	</div>

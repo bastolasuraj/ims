@@ -1,10 +1,10 @@
 <?php
 require __DIR__ . '/includes/db.php'; // Include MongoDB connection
 
-if (isset($_GET['item_name'])) {
-    $itemName = $_GET['item_name'];
+if (isset($_GET['product_name'])) {
+    $productName = $_GET['product_name'];
 
-    // Fetch the item from MongoDB by name
+    // Fetch the product from MongoDB by name
     $collection = $client->imsDB->imsCollection; // Replace with your actual database and collection
     $item = $collection->findOne(['name' => $itemName]);
 

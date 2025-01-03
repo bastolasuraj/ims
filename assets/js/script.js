@@ -16,7 +16,7 @@ function fetchItemDetail() {
         .then(data => {
             if (data.cost !== null && data.quantity !== null) {
                 document.getElementById('item-cost').value = data.cost;
-                // document.getElementById('item-quantity').value = data.quantity;
+                document.getElementById('item-quantity').value = data.quantity;
                 document.getElementById('item-detail').innerText =
                     `You have ${data.quantity} ${itemName}(s) in stock.`;
             } else {
